@@ -45,10 +45,10 @@ const TinyTest = {
             let testAction = tests[testName];
             try {
                 testAction();
-                console.log('Test:', testName, 'OK');
+                console.log('%c' + testName, 'color: green');
             } catch (e) {
                 failures++;
-                console.error('Test:', testName, 'FAILED', e);
+                console.error('%c' + testName, 'color: red');
                 console.error(e.stack);
             }
         }
