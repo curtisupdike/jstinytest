@@ -41,10 +41,12 @@ const TinyTest = {
 
     run: function(tests) {
         let failures = 0;
+        let successes = 0;
         for (let testName in tests) {
             let testAction = tests[testName];
             try {
                 testAction();
+                successes++;
                 console.log('%c' + testName, 'color: green');
             } catch (e) {
                 failures++;
@@ -56,6 +58,18 @@ const TinyTest = {
         setTimeout(function() { // Give document a chance to complete
             if (window.document && document.body) {
                 document.body.style.backgroundColor = (failures == 0 ? '#99ff99' : '#ff9999');
+
+                // Render summary to DOM
+                let totalTests = failures + successes;
+                let summaryDesciption = 'Ran ' + totalTests + ' tests: '
+                                        + successes + ' success';
+                if (successes !== 1) summaryDesciption += 'es';
+                summaryDesciption += ', ' + failures + ' failure';
+                if (failures !== 1) summaryDesciption += 's';
+                let summaryElement = document.createElement('h1');
+                summaryElement.textContent = summaryDesciption;
+                summaryElement.style.color = failures > 0 ? 'red' : 'green';
+                document.body.appendChild(summaryElement);
             }
         }, 0);
     },
